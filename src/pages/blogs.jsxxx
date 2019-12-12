@@ -1,0 +1,53 @@
+import React from "react"
+import Layout from "../components/layout"
+import { graphql } from "gatsby"
+
+const Blogs = ({ data }) => (
+	<Layout>
+		{data.allMarkdownRemark.edges.map(blog => (
+			<div className="blog-list">
+				<h3>{blog.node.frontmatter.title}</h3>
+				<div
+					className="img-area"
+					style={{
+						backgroundImage: `url(${blog.node.frontmatter.banner})`,
+					}}
+				/>
+				<div
+					dangerouslySetInnerHTML={{
+						__html: blog.node.frontmatter.excerpt,
+					}}
+				/>
+			</div>
+		))}
+	</Layout>
+)
+
+export default Blogs
+
+export const blogQuery = graphql`
+	query {
+		allMarkdownRemark {
+			edges {
+				node {
+					id
+					frontmatter {
+						title
+						publishedDate
+						excerpt
+						metaTitle
+						metaKeywords
+						metaDescription
+						banner
+						status
+						description
+						author
+						categories
+						tags
+					}
+					html
+				}
+			}
+		}
+	}
+`
