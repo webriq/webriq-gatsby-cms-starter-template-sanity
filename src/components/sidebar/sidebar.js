@@ -1,6 +1,6 @@
 import React from "react"
 import SideBar from "react-sidebar"
-import { Motion, spring, presets } from "react-motion"
+// import { Motion, spring, presets } from "react-motion"
 import Menu from "./menu"
 
 class SideBarMenu extends React.Component {
@@ -24,12 +24,12 @@ class SideBarMenu extends React.Component {
 		})
 	}
 	render() {
-		const style = {
-			overflow: "visible",
-			cursor: "pointer",
-			// disable touch highlighting on devices
-			WebkitTapHighlightColor: "rgba(0,0,0,0)",
-		}
+		// const style = {
+		// 	overflow: "visible",
+		// 	cursor: "pointer",
+		// 	// disable touch highlighting on devices
+		// 	WebkitTapHighlightColor: "rgba(0,0,0,0)",
+		// }
 		return (
 			<SideBar
 				sidebar={
@@ -40,7 +40,7 @@ class SideBarMenu extends React.Component {
 				pullRight={this.state.sidebarpullRight}
 				styles={{
 					sidebar: {
-						background: "white",
+						background: "#4b4c4b",
 						width: "300px",
 						position: "fixed",
 						zIndex: "3",
@@ -58,49 +58,50 @@ class SideBarMenu extends React.Component {
 					className="bm-burger-button float-right text-white"
 					onClick={() => this.toggleMenu()}
 				>
-					<svg viewBox="0 0 96 96" height="1em" style={style}>
-						<Motion
-							style={{
-								x: spring(this.state.toggle ? 1 : 0, presets.wobbly),
-								y: spring(this.state.toggle ? 0 : 1, presets.wobbly),
-							}}
-						>
-							{({ x, y }) => (
-								<g
-									id="navicon"
-									fill="none"
-									stroke="currentColor"
-									strokeWidth="10"
-									strokeLinecap="butt"
-									strokeLinejoin="round"
-								>
-									<line
-										transform={`translate(${x * 12}, ${x * -7}) rotate(${x *
-											45}, 7, 26)`}
-										x1="7"
-										y1="26"
-										x2="89"
-										y2="26"
-									/>
-									<line
-										transform={`translate(${x * 12}, ${x * 7}) rotate(${x *
-											-45}, 7, 70)`}
-										x1="7"
-										y1="70"
-										x2="89"
-										y2="70"
-									/>
-									<line
-										transform={`translate(${x * -96})`}
-										opacity={y}
-										x1="7"
-										y1="48"
-										x2="89"
-										y2="48"
-									/>
-								</g>
-							)}
-						</Motion>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						version="1.1"
+						id="Capa_1"
+						x="0px"
+						y="0px"
+						viewBox="0 0 56 56"
+						style={{ enableBackground: "new 0 0 56 56" }}
+						width="50px"
+						height="50px"
+						className=""
+					>
+						<g>
+							<g>
+								<path
+									d="M28,0C12.561,0,0,12.561,0,28s12.561,28,28,28s28-12.561,28-28S43.439,0,28,0z M28,54C13.663,54,2,42.336,2,28   S13.663,2,28,2s26,11.664,26,26S42.337,54,28,54z"
+									data-original="#000000"
+									class="active-path"
+									data-old_color="#000000"
+									fill="#FFFFFF"
+								/>
+								<path
+									d="M40,16H16c-0.553,0-1,0.448-1,1s0.447,1,1,1h24c0.553,0,1-0.448,1-1S40.553,16,40,16z"
+									data-original="#000000"
+									class="active-path"
+									data-old_color="#000000"
+									fill="#FFFFFF"
+								/>
+								<path
+									d="M40,27H16c-0.553,0-1,0.448-1,1s0.447,1,1,1h24c0.553,0,1-0.448,1-1S40.553,27,40,27z"
+									data-original="#000000"
+									class="active-path"
+									data-old_color="#000000"
+									fill="#FFFFFF"
+								/>
+								<path
+									d="M40,38H16c-0.553,0-1,0.448-1,1s0.447,1,1,1h24c0.553,0,1-0.448,1-1S40.553,38,40,38z"
+									data-original="#000000"
+									class="active-path"
+									data-old_color="#000000"
+									fill="#FFFFFF"
+								/>
+							</g>
+						</g>{" "}
 					</svg>
 				</h2>
 			</SideBar>

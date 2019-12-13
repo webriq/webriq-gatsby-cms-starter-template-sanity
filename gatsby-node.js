@@ -1,82 +1,73 @@
-const path = require("path")
+const path = require(`path`)
 const slugify = require("slugify")
-
-const makeRequest = (graphql, request) =>
-  new Promise((resolve, reject) => {
-    // Query for nodes to use in creating pages.
-    resolve(
-      graphql(request).then(result => {
-        if (result.errors) {
-          reject(result.errors)
-        }
-
-        return result
-      })
-    )
-  })
+const fs = require("fs")
+const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const getPosts = makeRequest(
-    graphql,
-    `query {
-      allMarkdownRemark(filter: { fileAbsolutePath: {regex : "\/posts/"} })
-        {
+  const blogPost = path.resolve(`./src/templates/blog-template.js`)
+  return graphql(
+    `
+      query {
+        allSanityPost(
+          filter: { slug: { current: { ne: null } }, publishedAt: { ne: null } }
+          sort: { order: DESC, fields: publishedAt }
+        ) {
           edges {
             node {
               id
-              frontmatter {
-                title
-                author
+              publishedAt
+              slug {
+                current
               }
+              title
             }
           }
         }
       }
     `
   ).then(result => {
-    // console.log(result.data.allStrapiPosts.edges)
-    // Create individual pages
-    result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-      createPage({
-        path: `/${slugify(node.frontmatter.title).toLowerCase()}`,
-        component: path.resolve(`./src/templates/blog-template.js`),
-        context: {
-          id: node.id,
-          author: node.frontmatter.author,
-        },
-      })
-    })
+    if (result.errors) {
+      throw result.errors
+    }
 
-    // Create paginated posts
-    const posts = result.data.allMarkdownRemark.edges.map(post => post.node)
-    const postsPerPage = 10
-    const numPages = Math.ceil(posts.length / postsPerPage)
+    // Create blog posts pages.
+    const posts = result.data.allSanityPost.edges
 
-    Array.from({ length: numPages }).forEach((_, i) => {
+    posts.forEach((post, index) => {
+      const previous = index === posts.length - 1 ? null : posts[index + 1].node
+      const next = index === 0 ? null : posts[index - 1].node
+
       createPage({
-        path: i === 0 ? `/blog` : `/blog/${i + 1}`,
-        component: path.resolve(`./src/templates/blog-list.js`),
+        path: post.node.slug.current,
+        component: blogPost,
         context: {
-          limit: postsPerPage,
-          skip: i * postsPerPage,
-          numPages,
-          currentPage: i + 1,
+          id: post.node.id,
+          slug: post.node.slug.current,
+          previous,
+          next,
         },
       })
     })
   })
-
-  return Promise.all([getPosts])
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
-  // Create slug field for Strapi posts
   if (node.internal.type === `MarkdownRemark`) {
-    const slugify_title = slugify(node.frontmatter.title, {
+    const value = createFilePath({ node, getNode })
+    createNodeField({
+      name: `slug`,
+      node,
+      value,
+    })
+  }
+
+  // Create slug field for Strapi posts
+  if (node.internal.type === `SanityPosts`) {
+    const slugify_title = slugify(node.title, {
       replacement: "-", // replace spaces with replacement
       remove: /[,*+~.()'"!:@]/g, // regex to remove characters
       lower: true, // result in lower case
@@ -89,4 +80,16 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       value: slugify_title,
     })
   }
+}
+
+// Write site admin URL on post build
+exports.onPostBuild = () => {
+  fs.writeFile(
+    "./public/site.json",
+    JSON.stringify({ siteAdminUrl: process.env.API_URL + "/admin" }),
+    "utf8",
+    function(err) {
+      console.log(err)
+    }
+  )
 }

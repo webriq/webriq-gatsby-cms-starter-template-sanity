@@ -1,4 +1,0 @@
----
-category: Category1
----
-

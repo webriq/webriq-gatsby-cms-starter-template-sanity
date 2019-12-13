@@ -6,6 +6,7 @@
 	box-shadow: none;
 	display: block;
 	padding: 0.5rem 0;
+	text-align: left;
 }
 .navigation .dropdown {
 	padding: 0;

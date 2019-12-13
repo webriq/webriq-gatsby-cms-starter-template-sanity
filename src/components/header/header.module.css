@@ -1,6 +1,9 @@
 .sticky-wrapper {
 	transform: unset !important;
 }
+.is-sticky .header {
+	background: #181a21;
+}
 .is-sticky .menu-container {
 	padding: 0.5rem 0;
 }

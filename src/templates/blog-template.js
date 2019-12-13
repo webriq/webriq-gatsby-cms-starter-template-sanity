@@ -1,46 +1,72 @@
 import React from "react"
 import Layout from "../components/layout"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import { Container } from "reactstrap"
+import SEO from "../components/seo"
+import marked from "marked"
 
 class BlogTemplate extends React.Component {
 	render() {
-		const data = this.props.data
-		const authorData = this.props.data.authorQuery.edges.map(
-			author => author.node
-		)
-		console.log(data)
+		const { post } = this.props.data
+		const { previous, next } = this.props.pageContext
+		console.log(previous, next)
 		return (
 			<Layout>
-				<Container>
-					<div className="blog-title">
-						<h1>{data.markdownRemark.frontmatter.title}</h1>
-						<small>
-							{data.markdownRemark.frontmatter.publishedDate.toUpperCase()}
-						</small>
+				<SEO title={post.title} description={post.excerpt} />
+				<div class="page-headline">
+					<div class="container">
+						<div class="section-heading text-center">
+							<h6 class="font-weight-bold text-uppercase text-white-50 flair">
+								Blog
+							</h6>
+							<h1>
+								<strong>{post.title}</strong>
+								<br />
+							</h1>
+							<span class="text-white-50 small">
+								<i class="fa fa-calendar-o pr-1" />
+								{post.publishedAt}
+							</span>
+						</div>
 					</div>
-				</Container>
-				<div
-					className="img-area"
-					style={{
-						backgroundImage: `url(${data.markdownRemark.frontmatter.banner})`,
-					}}
-				/>
-				<Container>
-					<img
-						className="author-img"
-						src={authorData[0].frontmatter.profilePicture}
-						alt="author"
-					/>
-					<small className="author-name">
-						Author: {data.markdownRemark.frontmatter.author}
-					</small>
-					<div
-						dangerouslySetInnerHTML={{
-							__html: data.markdownRemark.html,
-						}}
-					/>
-				</Container>
+				</div>
+				<div className="page-content">
+					<Container>
+						<div class="row justify-content-center">
+							<div class="col-md-9">
+								<div
+									dangerouslySetInnerHTML={{
+										__html: marked(post.body),
+									}}
+								/>
+							</div>
+						</div>
+						<div class="blog-nav">
+							<div class="row">
+								<div class="col-md-6 text-md-left">
+									{previous ? (
+										<div>
+											<span class="font-weight-bold text-uppercase text-muted d-block small">
+												Previous
+											</span>
+											<Link to={previous.slug.current}>{previous.title}</Link>
+										</div>
+									) : null}
+								</div>
+								<div class="col-md-6 text-md-right">
+									{next ? (
+										<div>
+											<span class="font-weight-bold text-uppercase text-muted d-block small">
+												next
+											</span>
+											<Link to={next.slug.current}>{next.title}</Link>
+										</div>
+									) : null}
+								</div>
+							</div>
+						</div>
+					</Container>
+				</div>
 			</Layout>
 		)
 	}
@@ -49,37 +75,19 @@ class BlogTemplate extends React.Component {
 export default BlogTemplate
 
 export const blogQuery = graphql`
-	query($id: String!, $author: String!) {
-		markdownRemark(id: { eq: $id }) {
+	query BlogPostTemplateQuery($id: String!) {
+		post: sanityPost(id: { eq: $id }) {
 			id
-			frontmatter {
-				title
-				publishedDate(formatString: "MMM DD, YYYY")
-				excerpt
-				metaTitle
-				metaKeywords
-				metaDescription
-				banner
-				status
-				description
-				author
-				category
-				tag
-			}
-			html
-		}
-		authorQuery: allMarkdownRemark(
-			filter: { frontmatter: { fullName: { eq: $author } } }
-		) {
-			edges {
-				node {
-					id
-					frontmatter {
-						fullName
-						profilePicture
+			mainImage {
+				asset {
+					fluid {
+						src
 					}
 				}
 			}
+			publishedAt(formatString: "MMMM DD, YYYY")
+			body
+			title
 		}
 	}
 `

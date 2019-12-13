@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby + NetlifyCMS`,
+    title: `Gatsby + Sanity`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
     author: `@gatsbyjs`,
   },
@@ -16,6 +16,22 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: `gatsby-plugin-sass`,
+      options: {
+        implementation: require("sass"),
+      },
+    },
+    {
+      resolve: "gatsby-source-sanity",
+      options: {
+        projectId: "dwkgbi7l",
+        dataset: "production",
+        // a token with read permissions is required
+        // if you have a private dataset
+        token: `sksklRrFOJCKNtbUiiaIb19DQOAXUOsbSpm5sybWtfwCINJ8Weui3kxkmf5hqQbuNiUltLRVRoAIHqFYoY7odWEePCS1IypYXZVmOuOQc0kqCorLtBA7Mv0bei8q220feyTitwmeh36FV4MLVUA6cxO44roFbs6PSpDtZk2U65NuWPi9BfrB`,
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `gatsby-starter-default`,
@@ -30,30 +46,6 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
-    {
-      resolve: `gatsby-plugin-netlify-cms`,
-      options: {
-        /**
-         * One convention is to place your Netlify CMS customization code in a
-         * `src/cms` directory.
-         */
-        modulePath: `${__dirname}/src/cms/cms.js`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/src/markdown/posts`,
-        name: `blog-pages`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/src/markdown/authors`,
-        name: `author`,
-      },
-    },
     `gatsby-transformer-remark`,
   ],
 }
