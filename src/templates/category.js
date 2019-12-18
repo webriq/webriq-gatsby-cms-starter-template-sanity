@@ -3,13 +3,11 @@ import Layout from "../components/layout"
 import { graphql, Link } from "gatsby"
 import { Container } from "reactstrap"
 import SEO from "../components/seo"
+
 const slugify = require("slugify")
-const Blogs = ({ data }) => (
+const Category = ({ data }) => (
 	<Layout>
-		<SEO
-			title="Latest Posts"
-			description={data.site.siteMetadata.description}
-		/>
+		<SEO title="Latest Posts" description="description" />
 		<div class="page-headline">
 			<div class="container">
 				<div class="section-heading text-center">
@@ -112,10 +110,10 @@ const Blogs = ({ data }) => (
 	</Layout>
 )
 
-export default Blogs
+export default Category
 
 export const blogQuery = graphql`
-	query {
+	query CategoryTemplateQuery($title: String!) {
 		site {
 			siteMetadata {
 				title
@@ -124,7 +122,7 @@ export const blogQuery = graphql`
 			}
 		}
 		allSanityPost(
-			filter: { status: { eq: "published" } }
+			filter: { categories: { elemMatch: { title: { eq: $title } } } }
 			sort: { order: ASC, fields: publishedAt }
 		) {
 			edges {

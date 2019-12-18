@@ -9,7 +9,7 @@ class BlogTemplate extends React.Component {
 	render() {
 		const { post } = this.props.data
 		const { previous, next } = this.props.pageContext
-		console.log(previous, next)
+		// console.log(previous, next)
 		return (
 			<Layout>
 				<SEO title={post.title} description={post.excerpt} />

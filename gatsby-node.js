@@ -1,19 +1,39 @@
-const path = require(`path`)
+const path = require("path")
 const slugify = require("slugify")
-const fs = require("fs")
-const { createFilePath } = require(`gatsby-source-filesystem`)
+
+function mapEdgesToNodes(data) {
+  if (!data.edges) return []
+  return data.edges.map(edge => edge.node)
+}
+
+function createSlug(text) {
+  return slugify(text, {
+    replacement: "-", // replace spaces with replacement
+    remove: /[*+~.()'"!:@?]/g, // regex to remove characters
+    lower: true, // result in lower case
+  })
+}
+
+const makeRequest = (graphql, request) =>
+  new Promise((resolve, reject) => {
+    // Query for nodes to use in creating pages.
+    resolve(
+      graphql(request).then(result => {
+        if (result.errors) {
+          reject(result.errors)
+        }
+        return result
+      })
+    )
+  })
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const blogPost = path.resolve(`./src/templates/blog-template.js`)
-  return graphql(
-    `
-      query {
-        allSanityPost(
-          filter: { slug: { current: { ne: null } }, publishedAt: { ne: null } }
-          sort: { order: DESC, fields: publishedAt }
-        ) {
+  const getSanityPost = makeRequest(
+    graphql,
+    `query {
+       allSanityPost {
           edges {
             node {
               id
@@ -25,8 +45,8 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
-      }
-    `
+    }
+ `
   ).then(result => {
     if (result.errors) {
       throw result.errors
@@ -41,7 +61,7 @@ exports.createPages = ({ graphql, actions }) => {
 
       createPage({
         path: post.node.slug.current,
-        component: blogPost,
+        component: path.resolve(`./src/templates/blog-template.js`),
         context: {
           id: post.node.id,
           slug: post.node.slug.current,
@@ -51,45 +71,35 @@ exports.createPages = ({ graphql, actions }) => {
       })
     })
   })
-}
 
-exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions
-
-  if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
-    createNodeField({
-      name: `slug`,
-      node,
-      value,
-    })
-  }
-
-  // Create slug field for Strapi posts
-  if (node.internal.type === `SanityPosts`) {
-    const slugify_title = slugify(node.title, {
-      replacement: "-", // replace spaces with replacement
-      remove: /[,*+~.()'"!:@]/g, // regex to remove characters
-      lower: true, // result in lower case
-    })
-
-    // Create slug field all lowercased and separated with dashes
-    createNodeField({
-      node,
-      name: `slug`,
-      value: slugify_title,
-    })
-  }
-}
-
-// Write site admin URL on post build
-exports.onPostBuild = () => {
-  fs.writeFile(
-    "./public/site.json",
-    JSON.stringify({ siteAdminUrl: process.env.API_URL + "/admin" }),
-    "utf8",
-    function(err) {
-      console.log(err)
+  const categoryPage = makeRequest(
+    graphql,
+    `query {
+      allSanityPost {
+        group(field: categories___title) {
+          fieldValue
+        }
+      }
     }
-  )
+ `
+  ).then(result => {
+    if (result.errors) {
+      throw result.errors
+    }
+
+    // Create blog posts pages.
+    const cats = result.data.allSanityPost.group
+
+    cats.map(cat =>
+      createPage({
+        path: slugify(cat.fieldValue.toLowerCase()),
+        component: path.resolve(`./src/templates/category.js`),
+        context: {
+          title: cat.fieldValue,
+        },
+      })
+    )
+  })
+
+  return Promise.all([getSanityPost, categoryPage])
 }
