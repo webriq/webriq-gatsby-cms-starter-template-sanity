@@ -93,8 +93,13 @@ const Category = ({ data }) => (
 							</p>
 							<form>
 								<div class="form-group">
-									<input class="form-control" type="email" required="" />
-									<label>Email address</label>
+									<input
+										class="form-control"
+										type="email"
+										id="categoryEmail"
+										required=""
+									/>
+									<label htmlFor="categoryEmail">Email address</label>
 								</div>
 								<div class="form-group mb-4">
 									<button class="btn btn-primary" type="submit">

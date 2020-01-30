@@ -48,10 +48,7 @@ module.exports = {
             },
             query: `
               {
-                allSanityPost(
-                  filter: { status: { eq: "published" } }
-                  sort: { order: ASC, fields: publishedAt }
-                ) {
+                allSanityPost{
                   edges {
                     node {
                       id
@@ -87,7 +84,9 @@ module.exports = {
         dataset: "production",
         // a token with read permissions is required
         // if you have a private dataset
-        token: `sksklRrFOJCKNtbUiiaIb19DQOAXUOsbSpm5sybWtfwCINJ8Weui3kxkmf5hqQbuNiUltLRVRoAIHqFYoY7odWEePCS1IypYXZVmOuOQc0kqCorLtBA7Mv0bei8q220feyTitwmeh36FV4MLVUA6cxO44roFbs6PSpDtZk2U65NuWPi9BfrB`,
+        token: `skQN5w8ZO2blYKvpTv0Jz7qsmXAfJEOKx2aPX8Wxowg4N167UAB9UxLTVe82j4EKc5Kn7n6LsCngI8JFtfoFCAudyMrxnvEIiXgWGH2BzryhAGQgqGIA4BmAjy03fLA0piilrjq1M7elu9QtbPStwQrHlkh5olxtv8lpI57FS2iv1T6s7uHR`,
+        watchMode: true,
+        overlayDrafts: true,
       },
     },
     {

@@ -23,6 +23,20 @@ class SideBarMenu extends React.Component {
 			toggle: !this.state.toggle,
 		})
 	}
+
+	handleKeyDown = ev => {
+		// check keys if you want
+		if (ev.keyCode === 13) {
+			this.focus()
+		}
+	}
+
+	focus = () => this.ref.focus
+
+	handleRef = component => {
+		this.ref = component
+	}
+
 	render() {
 		// const style = {
 		// 	overflow: "visible",
@@ -54,10 +68,7 @@ class SideBarMenu extends React.Component {
 					},
 				}}
 			>
-				<h2
-					className="bm-burger-button float-right text-white"
-					onClick={() => this.toggleMenu()}
-				>
+				<h2 className="bm-burger-button float-right text-white">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						version="1.1"
@@ -69,6 +80,8 @@ class SideBarMenu extends React.Component {
 						width="50px"
 						height="50px"
 						className=""
+						onClick={e => this.toggleMenu(e)}
+						onKeyDown={e => this.handleKeyDown(e)}
 					>
 						<g>
 							<g>

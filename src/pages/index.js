@@ -342,28 +342,47 @@ class IndexPage extends React.Component {
                     <div class="form-row">
                       <div class="col-lg-6">
                         <div class="form-group">
-                          <input class="form-control" type="text" required="" />
-                          <label>First Name</label>
+                          <input
+                            class="form-control"
+                            type="text"
+                            id="firstName"
+                            required=""
+                          />
+                          <label htmlFor="firstName">First Name</label>
                         </div>
                       </div>
                       <div class="col-lg-6">
                         <div class="form-group">
-                          <input class="form-control" type="text" required="" />
-                          <label>Last Name</label>
+                          <input
+                            class="form-control"
+                            type="text"
+                            id="lastName"
+                            required=""
+                          />
+                          <label htmlFor="lastName">Last Name</label>
                         </div>
                       </div>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" type="email" required="" />
-                      <label>Email address</label>
+                      <input
+                        class="form-control"
+                        type="email"
+                        id="homeEmail"
+                        required=""
+                      />
+                      <label htmlFor="homeEmail">Email address</label>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" type="tel" />
-                      <label>Phone (optional)</label>
+                      <input class="form-control" id="phone" type="tel" />
+                      <label htmlFor="phone">Phone (optional)</label>
                     </div>
                     <div class="form-group">
-                      <textarea class="form-control h-auto" required="" />
-                      <label>Message</label>
+                      <textarea
+                        class="form-control h-auto"
+                        id="message"
+                        required=""
+                      />
+                      <label htmlFor="message">Message</label>
                     </div>
                     <div class="form-group">
                       <div className="webriq-recaptcha" />
