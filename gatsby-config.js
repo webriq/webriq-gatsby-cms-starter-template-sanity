@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby + Sanity`,
@@ -80,11 +82,11 @@ module.exports = {
     {
       resolve: "gatsby-source-sanity",
       options: {
-        projectId: "dwkgbi7l",
-        dataset: "production",
+        projectId: process.env.SANITY_PROJECT_ID,
+        dataset: process.env.SANITY_PROJECT_DATASET,
         // a token with read permissions is required
         // if you have a private dataset
-        token: `skQN5w8ZO2blYKvpTv0Jz7qsmXAfJEOKx2aPX8Wxowg4N167UAB9UxLTVe82j4EKc5Kn7n6LsCngI8JFtfoFCAudyMrxnvEIiXgWGH2BzryhAGQgqGIA4BmAjy03fLA0piilrjq1M7elu9QtbPStwQrHlkh5olxtv8lpI57FS2iv1T6s7uHR`,
+        token: process.env.SANITY_TOKEN,
         watchMode: true,
         overlayDrafts: true,
       },
