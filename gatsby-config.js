@@ -82,11 +82,13 @@ module.exports = {
     {
       resolve: "gatsby-source-sanity",
       options: {
-        projectId: process.env.SANITY_PROJECT_ID,
-        dataset: process.env.SANITY_PROJECT_DATASET,
+        projectId: process.env.SANITY_PROJECT_ID || `dwkgbi7l`,
+        dataset: process.env.SANITY_PROJECT_DATASET || `production`,
         // a token with read permissions is required
         // if you have a private dataset
-        token: process.env.SANITY_TOKEN,
+        token:
+          process.env.SANITY_TOKEN ||
+          `skQN5w8ZO2blYKvpTv0Jz7qsmXAfJEOKx2aPX8Wxowg4N167UAB9UxLTVe82j4EKc5Kn7n6LsCngI8JFtfoFCAudyMrxnvEIiXgWGH2BzryhAGQgqGIA4BmAjy03fLA0piilrjq1M7elu9QtbPStwQrHlkh5olxtv8lpI57FS2iv1T6s7uHR`,
         watchMode: true,
         overlayDrafts: true,
       },
