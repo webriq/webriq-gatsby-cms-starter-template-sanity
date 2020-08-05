@@ -82,8 +82,8 @@ module.exports = {
     {
       resolve: "gatsby-source-sanity",
       options: {
-        projectId: process.env.SANITY_PROJECT_ID || `dwkgbi7l`,
-        dataset: process.env.SANITY_PROJECT_DATASET || `production`,
+        projectId: process.env.GATSBY_SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID || `dwkgbi7l`,
+        dataset: process.env.GATSBY_SANITY_PROJECT_DATASET || process.env.SANITY_PROJECT_DATASET || `production`,
         // a token with read permissions is required
         // if you have a private dataset
         token:
