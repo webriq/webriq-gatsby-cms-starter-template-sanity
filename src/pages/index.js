@@ -12,12 +12,26 @@ import finance from "../images/financial.svg"
 import jigsaw from "../images/jigsaws.svg"
 import report from "../images/report.svg"
 import trophy from "../images/trophy.svg"
+import BlockContent from "@sanity/block-content-to-react"
 
 class IndexPage extends React.Component {
   render() {
     const siteTitle = this.props.data.site.siteMetadata.title
     const siteDescription = this.props.data.site.siteMetadata.description
     const posts = this.props.data.allSanityPost.edges
+    const aboutPage = this.props.data.aboutPage
+    const siteSettings = this.props.data.siteSettings
+
+    const serializers = {
+      types: {
+        code: props => (
+          <pre data-language={props.node.language}>
+            <code>{props.node.code}</code>
+          </pre>
+        ),
+      },
+    }
+
     console.log(posts)
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -27,12 +41,9 @@ class IndexPage extends React.Component {
             <div class="row justify-content-center">
               <div class="col-md-9">
                 <h1 class="display-4 font-weight-bold flair">
-                  Lorem ipsum dolor sit amet
+                  {siteSettings.title}
                 </h1>
-                <p class="lead">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                  accusantium doloremque laudantium
-                </p>
+                <p class="lead">{siteSettings.description}</p>
               </div>
             </div>
           </Container>
@@ -40,40 +51,16 @@ class IndexPage extends React.Component {
         <div class="about-section">
           <div class="container">
             <div class="section-heading text-center">
-              <h6 class="font-weight-bold text-uppercase flair">About Us</h6>
-              <h2>
-                <strong>Lorem ipsum dolor sit amet</strong>
-              </h2>
+              <h6 class="font-weight-bold text-uppercase flair">
+                {aboutPage.title}
+              </h6>
             </div>
             <div>
               <div class="row justify-content-between align-items-center pt-5">
-                <div class="col-md-5 order-2 order-md-1">
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </p>
-                  <p>
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                    irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu fugiat nulla pariatur.
-                  </p>
-                  <Link
-                    class="btn btn-primary mt-2"
-                    role="button"
-                    to="/about-us"
-                  >
-                    Learn More
-                  </Link>
-                </div>
-                <div class="col-md-6 order-1 order-md-2 text-center pb-5 pb-md-0">
-                  <LazyLoadImage
-                    class="img-fluid"
-                    src="https://source.unsplash.com/user/neotronimz/600x400"
-                    alt="About us"
-                  />
-                </div>
+                <BlockContent
+                  blocks={aboutPage._rawBody || []}
+                  serializers={serializers}
+                />
               </div>
             </div>
           </div>
@@ -413,6 +400,15 @@ export const indexPageQuery = graphql`
         author
         description
       }
+    }
+    siteSettings: sanitySiteSettings {
+      title
+      description
+    }
+    aboutPage: sanityPage(_id: { regex: "/(drafts.|)about/" }) {
+      id
+      title
+      _rawBody
     }
     allSanityPost(sort: { order: ASC, fields: publishedAt }, limit: 3) {
       edges {

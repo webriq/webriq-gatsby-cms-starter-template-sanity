@@ -89,6 +89,7 @@ exports.createPages = ({ graphql, actions }) => {
 
     // Create blog posts pages.
     const cats = result.data.allSanityPost.group
+    console.log(cats)
 
     cats.map(cat =>
       createPage({

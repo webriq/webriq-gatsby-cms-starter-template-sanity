@@ -1,8 +1,7 @@
 import React from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import BlockContent from "@sanity/block-content-to-react"
-
+const BlockContent = require("@sanity/block-content-to-react")
 const serializers = {
   types: {
     code: props => (
@@ -13,7 +12,7 @@ const serializers = {
   },
 }
 
-const ContactPage = ({ data }) => {
+const AboutPage = ({ data }) => {
   const page = data && data.page
 
   return (
@@ -43,8 +42,8 @@ const ContactPage = ({ data }) => {
 }
 
 export const query = graphql`
-  query ContactPageQuery {
-    page: sanityPage(_id: { regex: "/(drafts.|)contact/" }) {
+  query AboutPageQuery {
+    page: sanityPage(_id: { regex: "/(drafts.|)about/" }) {
       id
       title
       _rawBody
@@ -52,4 +51,4 @@ export const query = graphql`
   }
 `
 
-export default ContactPage
+export default AboutPage
