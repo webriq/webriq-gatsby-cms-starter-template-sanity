@@ -13,27 +13,30 @@ const Blogs = ({ data }) => {
         title="Latest Posts"
         description={data.site.siteMetadata.description}
       />
-      <div class="page-headline">
-        <div class="container">
-          <div class="section-heading text-center">
-            <h6 class="font-weight-bold text-uppercase flair">Blog</h6>
+      <div className="page-headline">
+        <div className="container">
+          <div className="section-heading text-center">
+            <h6 className="font-weight-bold text-uppercase flair">Blog</h6>
             <h1>
               <strong>Latest Posts</strong>
             </h1>
           </div>
         </div>
       </div>
-      <div class="blog-section">
+      <div className="blog-section">
         <Container>
-          <div class="row justify-content-between">
-            <div class="col-md-7">
+          <div className="row justify-content-between">
+            <div className="col-md-7">
               {data.allSanityPost.edges.map(blog => (
-                <div class="blog-item bg-light" key={blog}>
-                  <div class="row">
-                    <div class="col-lg-4 pr-lg-0">
+                <div
+                  className="blog-item bg-light"
+                  key={blog.node.slug.current}
+                >
+                  <div className="row">
+                    <div className="col-lg-4 pr-lg-0">
                       <Link to={blog.node.slug.current}>
                         <div
-                          class="blog-image h-100"
+                          className="blog-image h-100"
                           style={{
                             backgroundImage: `url(${
                               blog.node.mainImage !== null
@@ -44,28 +47,29 @@ const Blogs = ({ data }) => {
                         />
                       </Link>
                     </div>
-                    <div class="col-lg-8 pl-lg-0">
-                      <div class="blog-text">
+                    <div className="col-lg-8 pl-lg-0">
+                      <div className="blog-text">
                         <Link to={blog.node.slug.current}>
                           <h4>{blog.node.title}</h4>
                         </Link>
-                        <div class="text-muted small">
+                        <div className="text-muted small">
                           {blog &&
                           blog.node &&
                           blog.node.categories &&
                           blog.node.categories.length !== 0
                             ? blog.node.categories.map(ct => (
-                                <span>
-                                  <i class="fa fa-folder pr-1" />
-
+                                <span key={ct.title}>
+                                  <i className="fa fa-folder pr-1" />
                                   <Link to="/">{ct.title + " "}</Link>
                                 </span>
                               ))
                             : null}
                         </div>
-                        <p class="pt-2 text-muted">{blog.node._rawExcerpt}</p>
-                        <span class="text-muted small">
-                          <i class="fa fa-calendar-o pr-1" />
+                        <p className="pt-2 text-muted">
+                          {blog.node._rawExcerpt}
+                        </p>
+                        <span className="text-muted small">
+                          <i className="fa fa-calendar-o pr-1" />
                           {blog.node.publishedAt}
                         </span>
                       </div>
@@ -74,14 +78,14 @@ const Blogs = ({ data }) => {
                 </div>
               ))}
             </div>
-            <div class="col-md-4 mb-4">
-              <div class="side-content">
-                <h6 class="text-uppercase text-muted">Categories</h6>
-                <ul class="list-unstyled">
+            <div className="col-md-4 mb-4">
+              <div className="side-content">
+                <h6 className="text-uppercase text-muted">Categories</h6>
+                <ul className="list-unstyled">
                   {data.allSanityPost.group.map(cat => (
                     <li key={cat.fieldValue}>
                       <Link
-                        class="text-body font-weight-bold"
+                        className="text-body font-weight-bold"
                         to={slugify(cat.fieldValue.toLowerCase())}
                       >
                         {cat.fieldValue}
@@ -90,24 +94,24 @@ const Blogs = ({ data }) => {
                   ))}
                 </ul>
               </div>
-              <div class="side-content">
-                <h6 class="text-uppercase text-muted">Keep Up-to-Date</h6>
-                <p class="small">
+              <div className="side-content">
+                <h6 className="text-uppercase text-muted">Keep Up-to-Date</h6>
+                <p className="small">
                   Get our latest news and updates straight to your inbox. Enter
                   your email address to subscribe:
                 </p>
                 <form>
-                  <div class="form-group">
+                  <div className="form-group">
                     <input
-                      class="form-control"
+                      className="form-control"
                       type="email"
                       id="email"
                       required=""
                     />
                     <label htmlFor="email">Email address</label>
                   </div>
-                  <div class="form-group mb-4">
-                    <button class="btn btn-primary" type="submit">
+                  <div className="form-group mb-4">
+                    <button className="btn btn-primary" type="submit">
                       Subscribe
                     </button>
                   </div>

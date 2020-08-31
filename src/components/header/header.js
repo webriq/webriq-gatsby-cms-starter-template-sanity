@@ -12,17 +12,17 @@ const Header = () => (
       stickyStyle={{ transform: "unset", zIndex: "2" }}
     >
       <div className={`header ${styl.header}`}>
-        <div class="container">
-          <div class="row justify-content-between align-items-center">
-            <div class="col">
-              <div class="header-logo">
+        <div className="container">
+          <div className="row justify-content-between align-items-center">
+            <div className="col">
+              <div className="header-logo">
                 <Link to="/">
-                  <span class="display-4 text-white">LOGO</span>
+                  <span className="display-4 text-white">LOGO</span>
                 </Link>
               </div>
             </div>
-            <div class="col-4">
-              <div class="text-right">
+            <div className="col-4">
+              <div className="text-right">
                 <SideBarMenu />
               </div>
             </div>
