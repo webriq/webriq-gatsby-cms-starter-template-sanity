@@ -262,7 +262,7 @@ class IndexPage extends React.Component {
                       <Link to={post.node.slug.current}>
                         <h4>{post.node.title}</h4>
                       </Link>
-                      <p class="pt-2 text-muted">{post.node.excerpt}</p>
+                      <p class="pt-2 text-muted">{post.node._rawExcerpt}</p>
                       <span class="text-muted small">
                         <i class="fa fa-calendar-o pr-1" />
                         {post.node.publishedAt}
@@ -425,7 +425,7 @@ export const indexPageQuery = graphql`
           slug {
             current
           }
-          excerpt
+          _rawExcerpt
           publishedAt(formatString: "MMMM DD, YYYY")
         }
       }
