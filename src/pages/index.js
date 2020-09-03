@@ -58,7 +58,7 @@ class IndexPage extends React.Component {
             <div>
               <div className="row justify-content-between align-items-center pt-5">
                 <BlockContent
-                  blocks={aboutPage._rawBody || []}
+                  blocks={aboutPage.body || []}
                   serializers={serializers}
                 />
               </div>
@@ -264,7 +264,7 @@ class IndexPage extends React.Component {
                       <Link to={post.node.slug.current}>
                         <h4>{post.node.title}</h4>
                       </Link>
-                      <p className="pt-2 text-muted">{post.node._rawExcerpt}</p>
+                      <p className="pt-2 text-muted">{post.node.excerpt}</p>
                       <span className="text-muted small">
                         <i className="fa fa-calendar-o pr-1" />
                         {post.node.publishedAt}
@@ -427,7 +427,7 @@ export const indexPageQuery = graphql`
           slug {
             current
           }
-          _rawExcerpt
+          excerpt
           publishedAt(formatString: "MMMM DD, YYYY")
         }
       }

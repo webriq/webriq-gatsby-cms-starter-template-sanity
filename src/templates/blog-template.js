@@ -38,7 +38,7 @@ class BlogTemplate extends React.Component {
               <div className="col-md-9">
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: marked(post._rawBody || ""),
+                    __html: marked(post.body || ""),
                   }}
                 />
               </div>
@@ -88,7 +88,7 @@ export const blogQuery = graphql`
         }
       }
       publishedAt(formatString: "MMMM DD, YYYY")
-      _rawBody
+      body
       title
     }
   }

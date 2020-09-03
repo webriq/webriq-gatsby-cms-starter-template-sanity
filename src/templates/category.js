@@ -58,7 +58,7 @@ const Category = ({ data }) => (
                             ))
                           : null}
                       </div>
-                      <p className="pt-2 text-muted">{blog.node._rawExcerpt}</p>
+                      <p className="pt-2 text-muted">{blog.node.excerpt}</p>
                       <span className="text-muted small">
                         <i className="fa fa-calendar-o pr-1" />
                         {blog.node.publishedAt}
@@ -142,7 +142,7 @@ export const blogQuery = graphql`
               }
             }
           }
-          _rawExcerpt
+          excerpt
           slug {
             current
           }

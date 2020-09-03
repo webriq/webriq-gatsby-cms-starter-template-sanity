@@ -82,13 +82,19 @@ module.exports = {
     {
       resolve: "gatsby-source-sanity",
       options: {
-        projectId: process.env.GATSBY_SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID || `dwkgbi7l`,
-        dataset: process.env.GATSBY_SANITY_PROJECT_DATASET || process.env.SANITY_PROJECT_DATASET || `production`,
+        projectId:
+          process.env.GATSBY_SANITY_PROJECT_ID ||
+          process.env.SANITY_PROJECT_ID ||
+          `l670kdwr`,
+        dataset:
+          process.env.GATSBY_SANITY_PROJECT_DATASET ||
+          process.env.SANITY_PROJECT_DATASET ||
+          `production`,
         // a token with read permissions is required
         // if you have a private dataset
         token:
           process.env.SANITY_TOKEN ||
-          `skQN5w8ZO2blYKvpTv0Jz7qsmXAfJEOKx2aPX8Wxowg4N167UAB9UxLTVe82j4EKc5Kn7n6LsCngI8JFtfoFCAudyMrxnvEIiXgWGH2BzryhAGQgqGIA4BmAjy03fLA0piilrjq1M7elu9QtbPStwQrHlkh5olxtv8lpI57FS2iv1T6s7uHR`,
+          `skcw6qFRUrQWoq5uS7uRxZnywIsH5rTfZkEIUg533SgOySFu9Tu6FcHnknulTYZc31awKqjUDtjaXZoITY24AsF1DNd1s2AHPCNWw4oB0xTu9PBKK3y72zaKkMd4OgvQgd5LHtMbrkZkSMEIOPMtqMPyRsMKzAPANeI6oJWaWcvVmTa4zqBX`,
         watchMode: true,
         overlayDrafts: true,
       },
